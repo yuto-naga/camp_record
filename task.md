@@ -1,0 +1,23 @@
+# Tasks
+
+- [ ] Project Initialization
+    - [ ] Create Next.js project
+    - [ ] Install dependencies (Tailwind CSS, shadcn/ui, Supabase client)
+    - [ ] Setup Git repository
+- [ ] Backend Setup (Supabase)
+    - [ ] Create Supabase project
+    - [ ] Define database schema (`campsites` table)
+    - [ ] Setup Row Level Security (RLS) policies
+    - [ ] Configure Storage bucket for images
+- [ ] Core Implementation
+    - [ ] Authentication (Login/Signup page)
+    - [ ] Shared Layout & Navigation
+    - [ ] Dashboard (List View for Visited & Wishlist)
+    - [ ] Create/Edit Campsite Form with Image Upload
+    - [ ] Campsite Detail View
+- [ ] UI/UX Refinement
+    - [ ] Responsive design check (Mobile/Desktop)
+    - [ ] Loading states & Error handling
+- [ ] Deployment
+    - [ ] Deploy to Vercel
+    - [ ] Verify production build
