@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { Campsite } from '@/types/supabase'
+import { formatDate } from '@/lib/utils'
+import StarRating from '@/components/StarRating'
 
 export default async function CampsiteDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
@@ -90,7 +92,7 @@ export default async function CampsiteDetailPage({ params }: { params: Promise<{
                     {campsite.visited_date && (
                         <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">訪問日</dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{new Date(campsite.visited_date).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}</dd>
+                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{formatDate(campsite.visited_date)}</dd>
                         </div>
                     )}
                     {campsite.price && (

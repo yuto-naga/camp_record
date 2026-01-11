@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Campsite } from '@/types/supabase'
+import { formatDate } from '@/lib/utils'
+import StarRating from './StarRating'
 
 export default function DashboardClient({
     visitedCampsites,
@@ -116,8 +118,8 @@ function CampsiteCard({ site }: { site: Campsite }) {
                     </div>
                 )}
                 {site.rating ? (
-                    <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
-                        <span>★</span> {site.rating}
+                    <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-0.5 rounded text-xs font-bold flex items-center gap-1">
+                        <StarRating rating={site.rating} />
                     </div>
                 ) : null}
             </div>
