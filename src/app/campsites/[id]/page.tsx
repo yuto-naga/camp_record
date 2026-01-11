@@ -105,10 +105,7 @@ export default async function CampsiteDetailPage({ params }: { params: Promise<{
                         <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">評価</dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex items-center">
-                                <span className="text-yellow-400 text-lg mr-1">
-                                    {'★'.repeat(campsite.rating)}
-                                    <span className="text-gray-300">{'★'.repeat(5 - campsite.rating)}</span>
-                                </span>
+                                <StarRating rating={campsite.rating} />
                                 <span className="text-gray-500 text-sm ml-2">({campsite.rating} / 5)</span>
                             </dd>
                         </div>
