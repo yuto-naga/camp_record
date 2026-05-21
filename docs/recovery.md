@@ -100,6 +100,18 @@ graph TD
 今回の復旧に伴い、リポジトリに `.github/workflows/keep-alive.yml` というGitHub Actionsのワークフローを導入しました。
 
 * **動作内容:**
-  毎週日曜日と木曜日の週2回、自動的にGitHub Actionsが立ち上がり、SupabaseのREST API（`campsites`テーブル）に対して軽量な接続クエリを実行します。
+  毎週日曜日と木曜日の週2回（日本時間の午前9時）、自動的にGitHub Actionsが立ち上がり、SupabaseのREST API（`campsites`テーブル）に対して軽量な接続クエリを実行します。
 * **メリット:**
   これによりアクティビティが定期的に発生するため、アプリへのアクセスがない期間が続いても、無料プランのSupabaseプロジェクトが自動停止（Pause）されるのを防ぐことができます。
+
+### Keep-Aliveが動作しているかの確認方法
+
+自動実行を待たずに、GitHub上から手動で実行テストと動作確認を行うことができます。
+
+1. GitHubのリポジトリ（`yuto-naga/camp_record`）を開きます。
+2. 上部の **「Actions」** タブをクリックします。
+3. 左側のWorkflows一覧から **「Keep Supabase Alive」** を選択します。
+4. 画面右側にある青いバーの **「Run workflow」** ボタンをクリックし、緑色の **「Run workflow」** ボタンを押します。
+5. 実行が開始されると、黄色い丸（処理中）の実行履歴が表示されます。完了すると **緑色のチェックマーク（Success）** に変わります。
+6. 実行履歴をクリックし、**「ping」** ジョブ -> **「Ping Supabase API」** の詳細ログを開くと、Supabaseから正常にデータが取得できている（またはエラーなしで疎通できている）ログが確認できます。
+
