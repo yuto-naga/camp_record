@@ -13,5 +13,5 @@ jobs:
       - name: Ping Supabase API
         run: |
           curl -fS -X GET "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/rest/v1/campsites?select=id&limit=1" \
-            -H "apikey: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+            -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}"
