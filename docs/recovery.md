@@ -97,21 +97,20 @@ graph TD
 ---
 
 ## 4. 今後の自動停止を防ぐための予防策 (Keep-Alive)
-今回の復旧に伴い、リポジトリに `.github/workflows/keep-alive.yml` というGitHub Actionsのワークフローを導入しました。
 
-* **動作内容:**
-  毎週日曜日と木曜日の週2回（日本時間の午前9時）、自動的にGitHub Actionsが立ち上がり、SupabaseのREST API（`campsites`テーブル）に対して軽量な接続クエリを実行します。
-* **メリット:**
-  これによりアクティビティが定期的に発生するため、アプリへのアクセスがない期間が続いても、無料プランのSupabaseプロジェクトが自動停止（Pause）されるのを防ぐことができます。
+当初導入した GitHub Actions のスケジュール機能（`.github/workflows/keep-alive.yml`）は、**リポジトリのコミット活動が少ない場合に実行が遅延したり、無効化・スキップされたりする制限**があります。そのため、7日間の猶予期間を過ぎてSupabaseが停止してしまう可能性がありました。
 
-### Keep-Aliveが動作しているかの確認方法
+より確実に自動停止を防ぐため、アプリをホストしている **Vercel の Cron Jobs 機能**を利用した方法に移行しました。Vercel Cron は設定されたスケジュール通りに確実に実行されます。
 
-自動実行を待たずに、GitHub上から手動で実行テストと動作確認を行うことができます。
+### 構成内容
+1. **[vercel.json](file:///Users/yuto/Documents/GeminiProjects/campRecord/vercel.json)**:
+   Vercelにクローンジョブのスケジュールを設定するファイルです。3日ごとにAPIを実行するように設定しています。
+2. **[src/app/api/cron/keep-alive/route.ts](file:///Users/yuto/Documents/GeminiProjects/campRecord/src/app/api/cron/keep-alive/route.ts)**:
+   Vercel Cronから呼び出され、Supabaseの `campsites` テーブルを直接クエリしてデータベースに接続するAPIエンドポイントです。安全のためにVercelから送信される `CRON_TOKEN` による認証を行っています。
 
-1. GitHubのリポジトリ（`yuto-naga/camp_record`）を開きます。
-2. 上部の **「Actions」** タブをクリックします。
-3. 左側のWorkflows一覧から **「Keep Supabase Alive」** を選択します。
-4. 画面右側にある青いバーの **「Run workflow」** ボタンをクリックし、緑色の **「Run workflow」** ボタンを押します。
-5. 実行が開始されると、黄色い丸（処理中）の実行履歴が表示されます。完了すると **緑色のチェックマーク（Success）** に変わります。
-6. 実行履歴をクリックし、**「ping」** ジョブ -> **「Ping Supabase API」** の詳細ログを開くと、Supabaseから正常にデータが取得できている（またはエラーなしで疎通できている）ログが確認できます。
-
+### 動作確認方法
+Vercelのプロジェクト設定ダッシュボードで動作確認が可能です。
+1. [Vercelのダッシュボード](https://vercel.com/) にアクセスし、プロジェクトを開きます。
+2. **Settings** > **Cron Jobs** に進みます。
+3. 作成した `/api/cron/keep-alive` ジョブが登録されていることを確認できます。
+4. ジョブの右側のメニューから手動で実行（Trigger）してテストすることも可能です。
